@@ -1,0 +1,15 @@
+Description: Fix path location for templates and other files
+Author: Laurent Bigonville <bigon@debian.org>
+Forwarded: not-needed
+
+--- a/lib/vagrant.rb
++++ b/lib/vagrant.rb
+@@ -77,7 +77,7 @@
+   # The source root is the path to the root directory of
+   # the Vagrant gem.
+   def self.source_root
+-    @source_root ||= Pathname.new(File.expand_path('../../', __FILE__))
++    @source_root ||= Pathname.new('/usr/share/vagrant/')
+   end
+ 
+   # Global registry of commands that are available via the CLI.

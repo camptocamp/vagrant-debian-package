@@ -1,0 +1,34 @@
+Source: vagrant
+Section: admin
+Priority: optional
+Maintainer: Laurent Bigonville <bigon@debian.org>
+DM-Upload-Allowed: yes
+Build-Depends: debhelper (>= 7.0.50~), gem2deb (>= 0.2.13~)
+Standards-Version: 3.9.2
+Vcs-Git: git://anonscm.debian.org/git/collab-maint/vagrant.git
+Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/vagrant.git;a=summary
+Homepage: http://vagrantup.com/
+XS-Ruby-Versions: all
+
+Package: vagrant
+Architecture: all
+XB-Ruby-Versions: ${ruby:Versions}
+Depends: ruby-erubis (>= 2.7.0),
+         ruby | ruby-interpreter,
+         ruby-archive-tar-minitar,
+         ruby-childprocess (>= 0.3.0),
+         ruby-i18n (>= 0.6.0),
+         ruby-json (>= 1.5.1),
+         ruby-log4r (>= 1.1.9),
+         ruby-net-scp (>= 1.0.4),
+         ruby-net-ssh (>= 2.2.2),
+         rubygems,
+         ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: virtualbox (>= 4.0)
+Description: Tool for building and distributing virtualized development environments
+ This package provides the tools to create and configure lightweight,
+ reproducible, and portable virtual environments.
+ .
+ Vagrant uses Oracle’s VirtualBox to create its virtual machines and then
+ uses Chef or Puppet to provision them.

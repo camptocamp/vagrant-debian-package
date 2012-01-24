@@ -1,0 +1,3 @@
+templates/ usr/share/vagrant
+keys/ usr/share/vagrant
+config/ usr/share/vagrant
