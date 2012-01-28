@@ -1,5 +1,5 @@
-vagrant (0.9.3-1) UNRELEASED; urgency=low
+vagrant (0.9.3-1) unstable; urgency=low
 
   * Initial release (Closes: #628031)
 
- -- Laurent Bigonville <bigon@debian.org>  Tue, 24 Jan 2012 10:57:56 +0100
+ -- Laurent Bigonville <bigon@debian.org>  Sat, 28 Jan 2012 12:36:35 +0100
