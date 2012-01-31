@@ -1,3 +1,10 @@
+vagrant (0.9.3-2) UNRELEASED; urgency=low
+
+  * debian/control:
+    - Drop DM-Upload-Allowed
+
+ -- Laurent Bigonville <bigon@debian.org>  Tue, 31 Jan 2012 23:25:03 +0100
+
 vagrant (0.9.3-1) unstable; urgency=low
 
   * Initial release (Closes: #628031)

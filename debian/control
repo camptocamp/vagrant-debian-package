@@ -2,7 +2,6 @@ Source: vagrant
 Section: admin
 Priority: optional
 Maintainer: Laurent Bigonville <bigon@debian.org>
-DM-Upload-Allowed: yes
 Build-Depends: debhelper (>= 7.0.50~), gem2deb (>= 0.2.13~)
 Standards-Version: 3.9.2
 Vcs-Git: git://anonscm.debian.org/git/collab-maint/vagrant.git
