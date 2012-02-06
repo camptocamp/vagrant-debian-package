@@ -94,6 +94,7 @@ module Vagrant
                                :read_used_ports,
                                :read_vms,
                                :set_mac_address,
+                               :set_name,
                                :share_folders,
                                :ssh_port,
                                :start,
@@ -117,7 +118,12 @@ module Vagrant
 
         # Note: We split this into multiple lines because apparently "".split("_")
         # is [], so we have to check for an empty array in between.
-        parts = execute("--version").split("_")
+        output = execute("--version")
+        if output =~ /vboxdrv kernel module is not loaded/
+          raise Errors::VirtualBoxKernelModuleNotLoaded
+        end
+
+        parts = output.split("_")
         return nil if parts.empty?
         parts[0].split("r")[0]
       end
