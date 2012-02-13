@@ -1,8 +1,10 @@
-vagrant (0.9.5-2) UNRELEASED; urgency=low
+vagrant (0.9.7-1) UNRELEASED; urgency=low
 
+  * New upstream release
+    - Bump ruby-childprocess dependency to 0.3.1
   * Add debian/gbp.conf file
 
- -- Laurent Bigonville <bigon@debian.org>  Mon, 06 Feb 2012 13:41:08 +0100
+ -- Laurent Bigonville <bigon@debian.org>  Mon, 13 Feb 2012 11:35:35 +0100
 
 vagrant (0.9.5-1) unstable; urgency=low
 

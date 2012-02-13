@@ -15,7 +15,7 @@ XB-Ruby-Versions: ${ruby:Versions}
 Depends: ruby-erubis (>= 2.7.0),
          ruby | ruby-interpreter,
          ruby-archive-tar-minitar,
-         ruby-childprocess (>= 0.3.0),
+         ruby-childprocess (>= 0.3.1),
          ruby-i18n (>= 0.6.0),
          ruby-json (>= 1.5.1),
          ruby-log4r (>= 1.1.9),
