@@ -1,13 +1,13 @@
 --- !ruby/object:Gem::Specification 
 name: vagrant
 version: !ruby/object:Gem::Version 
-  hash: 53
+  hash: 23
   prerelease: 
   segments: 
+  - 1
   - 0
-  - 9
-  - 7
-  version: 0.9.7
+  - 0
+  version: 1.0.0
 platform: ruby
 authors: 
 - Mitchell Hashimoto
@@ -16,7 +16,7 @@ autorequire:
 bindir: bin
 cert_chain: []
 
-date: 2012-02-09 00:00:00 Z
+date: 2012-03-06 00:00:00 Z
 dependencies: 
 - !ruby/object:Gem::Dependency 
   version_requirements: &id001 !ruby/object:Gem::Requirement 
@@ -72,6 +72,22 @@ dependencies:
     requirements: 
     - - ~>
       - !ruby/object:Gem::Version 
+        hash: 7
+        segments: 
+        - 0
+        - 6
+        - 0
+        version: 0.6.0
+  name: i18n
+  type: :runtime
+  prerelease: false
+  requirement: *id004
+- !ruby/object:Gem::Dependency 
+  version_requirements: &id005 !ruby/object:Gem::Requirement 
+    none: false
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
         hash: 1
         segments: 
         - 1
@@ -81,9 +97,9 @@ dependencies:
   name: json
   type: :runtime
   prerelease: false
-  requirement: *id004
+  requirement: *id005
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id005 !ruby/object:Gem::Requirement 
+  version_requirements: &id006 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -97,9 +113,9 @@ dependencies:
   name: log4r
   type: :runtime
   prerelease: false
-  requirement: *id005
+  requirement: *id006
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id006 !ruby/object:Gem::Requirement 
+  version_requirements: &id007 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -113,9 +129,9 @@ dependencies:
   name: net-ssh
   type: :runtime
   prerelease: false
-  requirement: *id006
+  requirement: *id007
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id007 !ruby/object:Gem::Requirement 
+  version_requirements: &id008 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -127,22 +143,6 @@ dependencies:
         - 4
         version: 1.0.4
   name: net-scp
-  type: :runtime
-  prerelease: false
-  requirement: *id007
-- !ruby/object:Gem::Dependency 
-  version_requirements: &id008 !ruby/object:Gem::Requirement 
-    none: false
-    requirements: 
-    - - ~>
-      - !ruby/object:Gem::Version 
-        hash: 7
-        segments: 
-        - 0
-        - 6
-        - 0
-        version: 0.6.0
-  name: i18n
   type: :runtime
   prerelease: false
   requirement: *id008
@@ -291,6 +291,7 @@ files:
 - lib/vagrant/action/builtin.rb
 - lib/vagrant/action/env/set.rb
 - lib/vagrant/action/environment.rb
+- lib/vagrant/action/general/check_virtualbox.rb
 - lib/vagrant/action/general/package.rb
 - lib/vagrant/action/general/validate.rb
 - lib/vagrant/action/runner.rb
@@ -337,6 +338,7 @@ files:
 - lib/vagrant/command/box_remove.rb
 - lib/vagrant/command/box_repackage.rb
 - lib/vagrant/command/destroy.rb
+- lib/vagrant/command/gem.rb
 - lib/vagrant/command/halt.rb
 - lib/vagrant/command/init.rb
 - lib/vagrant/command/package.rb
@@ -380,6 +382,7 @@ files:
 - lib/vagrant/guest/arch.rb
 - lib/vagrant/guest/base.rb
 - lib/vagrant/guest/debian.rb
+- lib/vagrant/guest/fedora.rb
 - lib/vagrant/guest/freebsd.rb
 - lib/vagrant/guest/gentoo.rb
 - lib/vagrant/guest/linux.rb
@@ -397,6 +400,7 @@ files:
 - lib/vagrant/hosts/freebsd.rb
 - lib/vagrant/hosts/gentoo.rb
 - lib/vagrant/hosts/linux.rb
+- lib/vagrant/hosts/opensuse.rb
 - lib/vagrant/hosts/windows.rb
 - lib/vagrant/plugin.rb
 - lib/vagrant/provisioners.rb
@@ -418,6 +422,7 @@ files:
 - lib/vagrant/util/file_checksum.rb
 - lib/vagrant/util/file_mode.rb
 - lib/vagrant/util/hash_with_indifferent_access.rb
+- lib/vagrant/util/line_ending_helpers.rb
 - lib/vagrant/util/network_ip.rb
 - lib/vagrant/util/platform.rb
 - lib/vagrant/util/retryable.rb
@@ -437,6 +442,10 @@ files:
 - templates/guests/arch/network_static.erb
 - templates/guests/debian/network_dhcp.erb
 - templates/guests/debian/network_static.erb
+- templates/guests/fedora/network_dhcp.erb
+- templates/guests/fedora/network_static.erb
+- templates/guests/freebsd/network_dhcp.erb
+- templates/guests/freebsd/network_static.erb
 - templates/guests/gentoo/network_dhcp.erb
 - templates/guests/gentoo/network_static.erb
 - templates/guests/redhat/network_dhcp.erb
@@ -576,6 +585,7 @@ files:
 - test/unit/vagrant/util/ansi_escape_code_remover_test.rb
 - test/unit/vagrant/util/file_checksum_test.rb
 - test/unit/vagrant/util/hash_with_indifferent_access_test.rb
+- test/unit/vagrant/util/line_endings_helper_test.rb
 - test/unit/vagrant/util/network_ip_test.rb
 - test/unit/vagrant/util/retryable_test.rb
 - test/unit/vagrant_test.rb

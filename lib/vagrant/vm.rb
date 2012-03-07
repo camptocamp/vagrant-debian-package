@@ -128,10 +128,12 @@ module Vagrant
       begin
         @driver = Driver::VirtualBox.new(@uuid)
       rescue Driver::VirtualBox::VMNotFound
-        # Clear the UUID since this VM doesn't exist. Note that this calls
-        # back into `reload!` but shouldn't ever result in infinite
-        # recursion since `@uuid` will be nil.
-        self.uuid = nil
+        # Clear the UUID since this VM doesn't exist.
+        @uuid = nil
+
+        # Reset the driver. This shouldn't raise a VMNotFound since we won't
+        # feed it a UUID.
+        @driver = Driver::VirtualBox.new
       end
     end
 
@@ -180,8 +182,6 @@ module Vagrant
       @_ui.resource = @name
       @_ui
     end
-
-    protected
 
     def run_action(name, options=nil)
       options = {

@@ -5,27 +5,26 @@ require 'vagrant/util/template_renderer'
 
 module Vagrant
   module Guest
-    class Redhat < Linux
+    class Fedora < Linux
       # Make the TemplateRenderer top-level
       include Vagrant::Util
 
       def configure_networks(networks)
-        # Accumulate the configurations to add to the interfaces file as
-        # well as what interfaces we're actually configuring since we use that
-        # later.
+        # Accumulate the configurations to add to the interfaces file as well
+        # as what interfaces we're actually configuring since we use that later.
         interfaces = Set.new
         networks.each do |network|
           interfaces.add(network[:interface])
 
-          # Remove any previous vagrant configuration in this network interface's
-          # configuration files.
-          vm.channel.sudo("touch #{network_scripts_dir}/ifcfg-eth#{network[:interface]}")
-          vm.channel.sudo("sed -e '/^#VAGRANT-BEGIN/,/^#VAGRANT-END/ d' #{network_scripts_dir}/ifcfg-eth#{network[:interface]} > /tmp/vagrant-ifcfg-eth#{network[:interface]}")
-          vm.channel.sudo("cat /tmp/vagrant-ifcfg-eth#{network[:interface]} > #{network_scripts_dir}/ifcfg-eth#{network[:interface]}")
+          # Remove any previous vagrant configuration in this network
+          # interface's configuration files.
+          vm.channel.sudo("touch #{network_scripts_dir}/ifcfg-p7p#{network[:interface]}")
+          vm.channel.sudo("sed -e '/^#VAGRANT-BEGIN/,/^#VAGRANT-END/ d' #{network_scripts_dir}/ifcfg-p7p#{network[:interface]} > /tmp/vagrant-ifcfg-p7p#{network[:interface]}")
+          vm.channel.sudo("cat /tmp/vagrant-ifcfg-p7p#{network[:interface]} > #{network_scripts_dir}/ifcfg-p7p#{network[:interface]}")
 
           # Render and upload the network entry file to a deterministic
           # temporary location.
-          entry = TemplateRenderer.render("guests/redhat/network_#{network[:type]}",
+          entry = TemplateRenderer.render("guests/fedora/network_#{network[:type]}",
                                           :options => network)
 
           temp = Tempfile.new("vagrant")
@@ -37,12 +36,12 @@ module Vagrant
         end
 
         # Bring down all the interfaces we're reconfiguring. By bringing down
-        # each specifically, we avoid reconfiguring eth0 (the NAT interface) so
+        # each specifically, we avoid reconfiguring p7p (the NAT interface) so
         # SSH never dies.
         interfaces.each do |interface|
-          vm.channel.sudo("/sbin/ifdown eth#{interface} 2> /dev/null", :error_check => false)
-          vm.channel.sudo("cat /tmp/vagrant-network-entry_#{interface} >> #{network_scripts_dir}/ifcfg-eth#{interface}")
-          vm.channel.sudo("/sbin/ifup eth#{interface} 2> /dev/null")
+          vm.channel.sudo("/sbin/ifdown p7p#{interface} 2> /dev/null", :error_check => false)
+          vm.channel.sudo("cat /tmp/vagrant-network-entry_#{interface} >> #{network_scripts_dir}/ifcfg-p7p#{interface}")
+          vm.channel.sudo("/sbin/ifup p7p#{interface} 2> /dev/null")
         end
       end
 
