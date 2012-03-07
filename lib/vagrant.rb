@@ -1,9 +1,10 @@
+require 'log4r'
+
 # Enable logging if it is requested. We do this before
 # anything else so that we can setup the output before
 # any logging occurs.
 if ENV["VAGRANT_LOG"] && ENV["VAGRANT_LOG"] != ""
   # Require Log4r and define the levels we'll be using
-  require 'log4r'
   require 'log4r/config'
   Log4r.define_levels(*Log4r::Log4rConfig::LogLevels)
 
@@ -49,6 +50,10 @@ require 'i18n'
 # OpenSSL must be loaded here since when it is loaded via `autoload`
 # there are issues with ciphers not being properly loaded.
 require 'openssl'
+
+# Always make the version available
+require 'vagrant/version'
+Log4r::Logger.new("vagrant::global").info("Vagrant version: #{Vagrant::VERSION}")
 
 module Vagrant
   autoload :Action,        'vagrant/action'
@@ -136,6 +141,7 @@ I18n.load_path << File.expand_path("templates/locales/en.yml", Vagrant.source_ro
 # Register the built-in commands
 Vagrant.commands.register(:box)          { Vagrant::Command::Box }
 Vagrant.commands.register(:destroy)      { Vagrant::Command::Destroy }
+Vagrant.commands.register(:gem)          { Vagrant::Command::Gem }
 Vagrant.commands.register(:halt)         { Vagrant::Command::Halt }
 Vagrant.commands.register(:init)         { Vagrant::Command::Init }
 Vagrant.commands.register(:package)      { Vagrant::Command::Package }
@@ -159,6 +165,7 @@ Vagrant.config_keys.register(:package) { Vagrant::Config::PackageConfig }
 Vagrant.hosts.register(:arch)    { Vagrant::Hosts::Arch }
 Vagrant.hosts.register(:bsd)     { Vagrant::Hosts::BSD }
 Vagrant.hosts.register(:fedora)  { Vagrant::Hosts::Fedora }
+Vagrant.hosts.register(:opensuse)  { Vagrant::Hosts::OpenSUSE }
 Vagrant.hosts.register(:freebsd) { Vagrant::Hosts::FreeBSD }
 Vagrant.hosts.register(:gentoo)  { Vagrant::Hosts::Gentoo }
 Vagrant.hosts.register(:linux)   { Vagrant::Hosts::Linux }
@@ -167,6 +174,7 @@ Vagrant.hosts.register(:windows) { Vagrant::Hosts::Windows }
 # Register the built-in guests
 Vagrant.guests.register(:arch)    { Vagrant::Guest::Arch }
 Vagrant.guests.register(:debian)  { Vagrant::Guest::Debian }
+Vagrant.guests.register(:fedora)  { Vagrant::Guest::Fedora }
 Vagrant.guests.register(:freebsd) { Vagrant::Guest::FreeBSD }
 Vagrant.guests.register(:gentoo)  { Vagrant::Guest::Gentoo }
 Vagrant.guests.register(:linux)   { Vagrant::Guest::Linux }
@@ -186,7 +194,3 @@ Vagrant.provisioners.register(:shell)         { Vagrant::Provisioners::Shell }
 Vagrant.config_keys.register(:freebsd) { Vagrant::Guest::FreeBSD::FreeBSDConfig }
 Vagrant.config_keys.register(:linux)   { Vagrant::Guest::Linux::LinuxConfig }
 Vagrant.config_keys.register(:solaris) { Vagrant::Guest::Solaris::SolarisConfig }
-
-# Load the things which must be loaded before anything else.
-require 'vagrant/version'
-Vagrant::Plugin.load!
