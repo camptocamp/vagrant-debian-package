@@ -148,6 +148,11 @@ module Vagrant
       error_key(:deprecation)
     end
 
+    class DestroyRequiresForce < VagrantError
+      status_code(74)
+      error_key(:destroy_requires_force)
+    end
+
     class DotfileIsDirectory < VagrantError
       status_code(46)
       error_key(:dotfile_is_directory)
@@ -166,6 +171,11 @@ module Vagrant
     class DownloaderHTTPStatusError < VagrantError
       status_code(51)
       error_key(:status_error, "vagrant.downloaders.http")
+    end
+
+    class EnvironmentNonExistentCWD < VagrantError
+      status_code(75)
+      error_key(:environment_non_existent_cwd)
     end
 
     class EnvironmentLockedError < VagrantError
@@ -321,6 +331,11 @@ module Vagrant
     class SSHUnavailableWindows < VagrantError
       status_code(10)
       error_key(:ssh_unavailable_windows)
+    end
+
+    class UIExpectsTTY < VagrantError
+      status_code(73)
+      error_key(:ui_expects_tty)
     end
 
     class VagrantInterrupt < VagrantError

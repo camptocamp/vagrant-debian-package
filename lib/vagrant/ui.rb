@@ -31,7 +31,14 @@ module Vagrant
     end
 
     # This is a UI implementation that does nothing.
-    class Silent < Interface; end
+    class Silent < Interface
+      def ask(*args)
+        super
+
+        # Silent can't do this, obviously.
+        raise Errors::UIExpectsTTY
+      end
+    end
 
     # This is a UI implementation that outputs the text as is. It
     # doesn't add any color.
@@ -51,6 +58,9 @@ module Vagrant
       def ask(message, opts=nil)
         super(message)
 
+        # We can't ask questions when the output isn't a TTY.
+        raise Errors::UIExpectsTTY if !$stdin.tty?
+
         # Setup the options so that the new line is suppressed
         opts ||= {}
         opts[:new_line] = false if !opts.has_key?(:new_line)
@@ -60,7 +70,7 @@ module Vagrant
         say(:info, message, opts)
 
         # Get the results and chomp off the newline
-        STDIN.gets.chomp
+        $stdin.gets.chomp
       end
 
       # This is used to output progress reports to the UI.
@@ -68,9 +78,13 @@ module Vagrant
       # to the UI. Send `clear_line` to clear the line to show
       # a continuous progress meter.
       def report_progress(progress, total, show_parts=true)
-        percent = (progress.to_f / total.to_f) * 100
-        line    = "Progress: #{percent.to_i}%"
-        line   << " (#{progress} / #{total})" if show_parts
+        if total && total > 0
+          percent = (progress.to_f / total.to_f) * 100
+          line    = "Progress: #{percent.to_i}%"
+          line   << " (#{progress} / #{total})" if show_parts
+        else
+          line    = "Progress: #{progress}"
+        end
 
         info(line, :new_line => false)
       end

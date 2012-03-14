@@ -1,13 +1,13 @@
 --- !ruby/object:Gem::Specification 
 name: vagrant
 version: !ruby/object:Gem::Version 
-  hash: 23
+  hash: 21
   prerelease: 
   segments: 
   - 1
   - 0
-  - 0
-  version: 1.0.0
+  - 1
+  version: 1.0.1
 platform: ruby
 authors: 
 - Mitchell Hashimoto
@@ -16,10 +16,13 @@ autorequire:
 bindir: bin
 cert_chain: []
 
-date: 2012-03-06 00:00:00 Z
+date: 2012-03-12 00:00:00 Z
 dependencies: 
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id001 !ruby/object:Gem::Requirement 
+  name: archive-tar-minitar
+  prerelease: false
+  type: :runtime
+  requirement: &id001 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - "="
@@ -30,12 +33,12 @@ dependencies:
         - 5
         - 2
         version: 0.5.2
-  name: archive-tar-minitar
-  type: :runtime
-  prerelease: false
-  requirement: *id001
+  version_requirements: *id001
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id002 !ruby/object:Gem::Requirement 
+  name: childprocess
+  prerelease: false
+  type: :runtime
+  requirement: &id002 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -46,12 +49,12 @@ dependencies:
         - 3
         - 1
         version: 0.3.1
-  name: childprocess
-  type: :runtime
-  prerelease: false
-  requirement: *id002
+  version_requirements: *id002
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id003 !ruby/object:Gem::Requirement 
+  name: erubis
+  prerelease: false
+  type: :runtime
+  requirement: &id003 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -62,12 +65,12 @@ dependencies:
         - 7
         - 0
         version: 2.7.0
-  name: erubis
-  type: :runtime
-  prerelease: false
-  requirement: *id003
+  version_requirements: *id003
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id004 !ruby/object:Gem::Requirement 
+  name: i18n
+  prerelease: false
+  type: :runtime
+  requirement: &id004 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -78,12 +81,12 @@ dependencies:
         - 6
         - 0
         version: 0.6.0
-  name: i18n
-  type: :runtime
-  prerelease: false
-  requirement: *id004
+  version_requirements: *id004
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id005 !ruby/object:Gem::Requirement 
+  name: json
+  prerelease: false
+  type: :runtime
+  requirement: &id005 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -94,12 +97,12 @@ dependencies:
         - 5
         - 1
         version: 1.5.1
-  name: json
-  type: :runtime
-  prerelease: false
-  requirement: *id005
+  version_requirements: *id005
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id006 !ruby/object:Gem::Requirement 
+  name: log4r
+  prerelease: false
+  type: :runtime
+  requirement: &id006 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -110,12 +113,12 @@ dependencies:
         - 1
         - 9
         version: 1.1.9
-  name: log4r
-  type: :runtime
-  prerelease: false
-  requirement: *id006
+  version_requirements: *id006
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id007 !ruby/object:Gem::Requirement 
+  name: net-ssh
+  prerelease: false
+  type: :runtime
+  requirement: &id007 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -126,12 +129,12 @@ dependencies:
         - 2
         - 2
         version: 2.2.2
-  name: net-ssh
-  type: :runtime
-  prerelease: false
-  requirement: *id007
+  version_requirements: *id007
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id008 !ruby/object:Gem::Requirement 
+  name: net-scp
+  prerelease: false
+  type: :runtime
+  requirement: &id008 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -142,12 +145,12 @@ dependencies:
         - 0
         - 4
         version: 1.0.4
-  name: net-scp
-  type: :runtime
-  prerelease: false
-  requirement: *id008
+  version_requirements: *id008
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id009 !ruby/object:Gem::Requirement 
+  name: rake
+  prerelease: false
+  type: :development
+  requirement: &id009 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ">="
@@ -156,12 +159,12 @@ dependencies:
         segments: 
         - 0
         version: "0"
-  name: rake
-  type: :development
-  prerelease: false
-  requirement: *id009
+  version_requirements: *id009
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id010 !ruby/object:Gem::Requirement 
+  name: contest
+  prerelease: false
+  type: :development
+  requirement: &id010 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ">="
@@ -172,12 +175,12 @@ dependencies:
         - 1
         - 2
         version: 0.1.2
-  name: contest
-  type: :development
-  prerelease: false
-  requirement: *id010
+  version_requirements: *id010
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id011 !ruby/object:Gem::Requirement 
+  name: minitest
+  prerelease: false
+  type: :development
+  requirement: &id011 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -188,12 +191,12 @@ dependencies:
         - 5
         - 1
         version: 2.5.1
-  name: minitest
-  type: :development
-  prerelease: false
-  requirement: *id011
+  version_requirements: *id011
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id012 !ruby/object:Gem::Requirement 
+  name: mocha
+  prerelease: false
+  type: :development
+  requirement: &id012 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ">="
@@ -202,28 +205,12 @@ dependencies:
         segments: 
         - 0
         version: "0"
-  name: mocha
-  type: :development
-  prerelease: false
-  requirement: *id012
+  version_requirements: *id012
 - !ruby/object:Gem::Dependency 
-  version_requirements: &id013 !ruby/object:Gem::Requirement 
-    none: false
-    requirements: 
-    - - ~>
-      - !ruby/object:Gem::Version 
-        hash: 47
-        segments: 
-        - 2
-        - 8
-        - 0
-        version: 2.8.0
   name: rspec-core
-  type: :development
   prerelease: false
-  requirement: *id013
-- !ruby/object:Gem::Dependency 
-  version_requirements: &id014 !ruby/object:Gem::Requirement 
+  type: :development
+  requirement: &id013 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -234,12 +221,12 @@ dependencies:
         - 8
         - 0
         version: 2.8.0
+  version_requirements: *id013
+- !ruby/object:Gem::Dependency 
   name: rspec-expectations
-  type: :development
   prerelease: false
-  requirement: *id014
-- !ruby/object:Gem::Dependency 
-  version_requirements: &id015 !ruby/object:Gem::Requirement 
+  type: :development
+  requirement: &id014 !ruby/object:Gem::Requirement 
     none: false
     requirements: 
     - - ~>
@@ -250,10 +237,23 @@ dependencies:
         - 8
         - 0
         version: 2.8.0
+  version_requirements: *id014
+- !ruby/object:Gem::Dependency 
   name: rspec-mocks
-  type: :development
   prerelease: false
-  requirement: *id015
+  type: :development
+  requirement: &id015 !ruby/object:Gem::Requirement 
+    none: false
+    requirements: 
+    - - ~>
+      - !ruby/object:Gem::Version 
+        hash: 47
+        segments: 
+        - 2
+        - 8
+        - 0
+        version: 2.8.0
+  version_requirements: *id015
 description: Vagrant is a tool for building and distributing virtualized development environments.
 email: 
 - mitchell.hashimoto@gmail.com
@@ -347,6 +347,7 @@ files:
 - lib/vagrant/command/resume.rb
 - lib/vagrant/command/ssh.rb
 - lib/vagrant/command/ssh_config.rb
+- lib/vagrant/command/start_mixins.rb
 - lib/vagrant/command/status.rb
 - lib/vagrant/command/suspend.rb
 - lib/vagrant/command/up.rb
@@ -388,6 +389,7 @@ files:
 - lib/vagrant/guest/linux.rb
 - lib/vagrant/guest/linux/config.rb
 - lib/vagrant/guest/linux/error.rb
+- lib/vagrant/guest/openbsd.rb
 - lib/vagrant/guest/redhat.rb
 - lib/vagrant/guest/solaris.rb
 - lib/vagrant/guest/suse.rb
