@@ -1,3 +1,23 @@
+## 1.0.1 (March 11, 2012)
+
+  - Fix crashing issue which manifested itself in multi-VM environments.
+  - Add missing `rubygems` require in `environment.rb` to avoid
+    possible load errors. [GH-781]
+  - `vagrant destroy` shows a nice error when called without a
+    TTY (and hence can't confirm). [GH-779]
+  - Fix an issue with the `:vagrantfile_name` option to `Vagrant::Environment`
+    not working properly. [GH-778]
+  - `VAGRANT_CWD` environmental variable can be used to set the CWD to
+    something other than the current directory.
+  - Downloading boxes from servers that don't send a content-length
+    now works properly. [GH-788]
+  - The `:facter` option now works for puppet server. [GH-790]
+  - The `--no-provision` and `--provision-with` flags are available to
+    `vagrant reload` now.
+  - `:openbsd` guest which supports only halting at the moment. [GH-773]
+  - `ssh-config -h` now shows help, instead of assuming a host is being
+    specified. For host, you can still use `--host`. [GH-793]
+
 ## 1.0.0 (March 6, 2012)
 
   - `vagrant gem` should now be used to install Vagrant plugins that are
