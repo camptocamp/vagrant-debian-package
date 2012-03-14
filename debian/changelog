@@ -1,4 +1,4 @@
-vagrant (1.0.1-1) UNRELEASED; urgency=low
+vagrant (1.0.1-1) unstable; urgency=low
 
   * New upstream release
   * debian/require-rubygems.overrides: Add lib/vagrant/command/gem.rb,
@@ -7,7 +7,7 @@ vagrant (1.0.1-1) UNRELEASED; urgency=low
     - Bump Standards-Version to 3.9.3 (no further changes)
     - Add version to rubygems dependency
 
- -- Laurent Bigonville <bigon@debian.org>  Wed, 14 Mar 2012 11:36:57 +0100
+ -- Laurent Bigonville <bigon@debian.org>  Wed, 14 Mar 2012 11:48:07 +0100
 
 vagrant (0.9.7-1) unstable; urgency=low
 
