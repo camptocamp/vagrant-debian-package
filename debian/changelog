@@ -1,8 +1,9 @@
 vagrant (1.0.2-1) UNRELEASED; urgency=low
 
   * New upstream release
+  * debian/patches/01_source_root_path.patch: Refreshed
 
- -- Laurent Bigonville <bigon@debian.org>  Wed, 04 Apr 2012 11:49:09 +0200
+ -- Laurent Bigonville <bigon@debian.org>  Wed, 04 Apr 2012 11:50:18 +0200
 
 vagrant (1.0.1-1) unstable; urgency=low
 
