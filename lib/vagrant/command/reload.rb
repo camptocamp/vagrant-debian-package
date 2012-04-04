@@ -9,7 +9,8 @@ module Vagrant
 
       def execute
         options = {}
-        opts = OptionParser.new do |opts|
+
+          opts = OptionParser.new do |opts|
           opts.banner = "Usage: vagrant reload [vm-name]"
           opts.separator ""
           build_start_options(opts, options)
@@ -20,7 +21,7 @@ module Vagrant
         return if !argv
 
         @logger.debug("'reload' each target VM...")
-        with_target_vms(argv[0]) do |vm|
+        with_target_vms(argv) do |vm|
           if vm.created?
             @logger.info("Reloading: #{vm.name}")
             vm.reload(options)
@@ -29,7 +30,10 @@ module Vagrant
             vm.ui.info I18n.t("vagrant.commands.common.vm_not_created")
           end
         end
-      end
+
+        # Success, exit status 0
+        0
+       end
     end
   end
 end
