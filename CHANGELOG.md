@@ -1,5 +1,31 @@
+## 1.0.2 (March 25, 2012)
+
+  - Provisioners will still mount folders and such if `--no-provision` is
+    used, so that `vagrant provision` works. [GH-803]
+  - Nicer error message if an unsupported SSH key type is used. [GH-805]
+  - Gentoo guests can now have their host names changed. [GH-796]
+  - Relative paths can be used for the `config.ssh.private_key_path`
+    setting. [GH-808]
+  - `vagrant ssh` now works on Solaris, where `IdentitiesOnly` was not
+    an available option. [GH-820]
+  - Output works properly in the face of broken pipes. [GH-819]
+  - Enable Host IO Cache on the SATA controller by default.
+  - Chef-solo provisioner now supports encrypted data bags. [GH-816]
+  - Enable the NAT DNS proxy by default, allowing your DNS to continue
+    working when you switch networks. [GH-834]
+  - Checking for port forwarding collisions also checks for other applications
+    that are potentially listening on that port as well. [GH-821]
+  - Multiple VM names can be specified for the various commands now. For
+    example: `vagrant up web db service`. [GH-795]
+  - More robust error handling if a VM fails to boot. The error message
+    is much clearer now. [GH-825]
+
 ## 1.0.1 (March 11, 2012)
 
+  - Installers are now bundled with Ruby 1.9.3p125. Previously they were
+    bundled with 1.9.3p0. This actually fixes some IO issues with Windows.
+  - Windows installer now outputs a `vagrant` binary that will work in msys
+    or Cygwin environments.
   - Fix crashing issue which manifested itself in multi-VM environments.
   - Add missing `rubygems` require in `environment.rb` to avoid
     possible load errors. [GH-781]

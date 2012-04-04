@@ -1,13 +1,13 @@
 --- !ruby/object:Gem::Specification 
 name: vagrant
 version: !ruby/object:Gem::Version 
-  hash: 21
+  hash: 19
   prerelease: 
   segments: 
   - 1
   - 0
-  - 1
-  version: 1.0.1
+  - 2
+  version: 1.0.2
 platform: ruby
 authors: 
 - Mitchell Hashimoto
@@ -16,7 +16,7 @@ autorequire:
 bindir: bin
 cert_chain: []
 
-date: 2012-03-12 00:00:00 Z
+date: 2012-03-25 00:00:00 Z
 dependencies: 
 - !ruby/object:Gem::Dependency 
   name: archive-tar-minitar
@@ -323,6 +323,7 @@ files:
 - lib/vagrant/action/vm/provisioner_cleanup.rb
 - lib/vagrant/action/vm/prune_nfs_exports.rb
 - lib/vagrant/action/vm/resume.rb
+- lib/vagrant/action/vm/sane_defaults.rb
 - lib/vagrant/action/vm/setup_package_files.rb
 - lib/vagrant/action/vm/share_folders.rb
 - lib/vagrant/action/vm/suspend.rb
@@ -424,11 +425,13 @@ files:
 - lib/vagrant/util/file_checksum.rb
 - lib/vagrant/util/file_mode.rb
 - lib/vagrant/util/hash_with_indifferent_access.rb
+- lib/vagrant/util/is_port_open.rb
 - lib/vagrant/util/line_ending_helpers.rb
 - lib/vagrant/util/network_ip.rb
 - lib/vagrant/util/platform.rb
 - lib/vagrant/util/retryable.rb
 - lib/vagrant/util/safe_exec.rb
+- lib/vagrant/util/safe_puts.rb
 - lib/vagrant/util/stacked_proc_runner.rb
 - lib/vagrant/util/subprocess.rb
 - lib/vagrant/util/template_renderer.rb
@@ -587,6 +590,7 @@ files:
 - test/unit/vagrant/util/ansi_escape_code_remover_test.rb
 - test/unit/vagrant/util/file_checksum_test.rb
 - test/unit/vagrant/util/hash_with_indifferent_access_test.rb
+- test/unit/vagrant/util/is_port_open_test.rb
 - test/unit/vagrant/util/line_endings_helper_test.rb
 - test/unit/vagrant/util/network_ip_test.rb
 - test/unit/vagrant/util/retryable_test.rb
