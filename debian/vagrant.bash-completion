@@ -1,0 +1,63 @@
+# bash completion for vagrant                              -*- shell-script -*-
+
+_vagrant()
+{
+    local cur prev words cword
+    _init_completion || return
+
+    local command options
+
+    commands="box destroy halt init package provision reload resume \
+        ssh ssh-config status suspend up"
+
+    if [[ $cword -eq 1 ]] ; then
+        COMPREPLY=( $( compgen -W "$commands -h --help -v --version" -- "$cur" ) )
+    else
+        command=${words[1]}
+        case $command in
+            box)
+                _count_args
+                case $args in
+                    2)
+                        options='add list remove repackage'
+                        ;;
+                    3)
+                        subcommand=${words[2]}
+                        case $subcommand in
+                            add)
+                                options='-f --force'
+                                ;;
+                        esac
+                        ;;
+                esac
+                ;;
+            destroy)
+                options='-f --force'
+                ;;
+            destroy|halt)
+                options='-f --force'
+                ;;
+            init|provision|resume|status|suspend)
+                options=''
+                ;;
+            package)
+                options='--base --include --output --vagrantfile'
+                ;;
+            provision|reload|up)
+                options='--no-provision --provision --provision-with'
+                ;;
+            ssh)
+                options='-c --command -p --plain'
+                ;;
+            ssh-config)
+                options='--host'
+                ;;
+        esac
+        COMPREPLY=( $( compgen -W "$options -h --help" -- "$cur" ) )
+    fi
+
+   return 0
+} &&
+complete -F _vagrant vagrant
+
+# ex: ts=4 sw=4 et filetype=sh
