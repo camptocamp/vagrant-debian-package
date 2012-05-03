@@ -1,9 +1,9 @@
-vagrant (1.0.3-1) UNRELEASED; urgency=low
+vagrant (1.0.3-1) unstable; urgency=low
 
   * New upstream release
   * debian/vagrant.bash-completion: Add bash completion file
 
- -- Laurent Bigonville <bigon@debian.org>  Thu, 03 May 2012 11:31:46 +0200
+ -- Laurent Bigonville <bigon@debian.org>  Thu, 03 May 2012 17:01:09 +0200
 
 vagrant (1.0.2-1) unstable; urgency=low
 
