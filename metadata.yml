@@ -1,13 +1,13 @@
 --- !ruby/object:Gem::Specification 
 name: vagrant
 version: !ruby/object:Gem::Version 
-  hash: 19
+  hash: 17
   prerelease: 
   segments: 
   - 1
   - 0
-  - 2
-  version: 1.0.2
+  - 3
+  version: 1.0.3
 platform: ruby
 authors: 
 - Mitchell Hashimoto
@@ -16,7 +16,7 @@ autorequire:
 bindir: bin
 cert_chain: []
 
-date: 2012-03-25 00:00:00 Z
+date: 2012-05-02 00:00:00 Z
 dependencies: 
 - !ruby/object:Gem::Dependency 
   name: archive-tar-minitar
