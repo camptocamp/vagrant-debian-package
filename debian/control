@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Laurent Bigonville <bigon@debian.org>
 Build-Depends: debhelper (>= 7.0.50~), gem2deb (>= 0.2.13~), bash-completion
 Standards-Version: 3.9.3
-Vcs-Git: git://anonscm.debian.org/git/collab-maint/vagrant.git
+Vcs-Git: git://anonscm.debian.org/collab-maint/vagrant.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=collab-maint/vagrant.git;a=summary
 Homepage: http://vagrantup.com/
 XS-Ruby-Versions: all
