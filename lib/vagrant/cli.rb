@@ -3,7 +3,7 @@ require 'optparse'
 
 module Vagrant
   # Manages the command line interface to Vagrant.
-  class CLI < Command::Base
+  class CLI < Vagrant.plugin("2", :command)
     def initialize(argv, env)
       super
 
@@ -31,10 +31,14 @@ module Vagrant
 
       # If we reached this far then we must have a subcommand. If not,
       # then we also just print the help and exit.
-      command_class = Vagrant.commands.get(@sub_command.to_sym) if @sub_command
+      command_class = nil
+      if @sub_command
+        command_class = Vagrant.plugin("2").manager.commands[@sub_command.to_sym]
+      end
+
       if !command_class || !@sub_command
         help
-        return 0
+        return 1
       end
       @logger.debug("Invoking command class: #{command_class} #{@sub_args.inspect}")
 
@@ -49,25 +53,27 @@ module Vagrant
       # We use the optionparser for this. Its just easier. We don't use
       # an optionparser above because I don't think the performance hits
       # of creating a whole object are worth checking only a couple flags.
-      opts = OptionParser.new do |opts|
-        opts.banner = "Usage: vagrant [-v] [-h] command [<args>]"
-        opts.separator ""
-        opts.on("-v", "--version", "Print the version and exit.")
-        opts.on("-h", "--help", "Print this help.")
-        opts.separator ""
-        opts.separator "Available subcommands:"
+      opts = OptionParser.new do |o|
+        o.banner = "Usage: vagrant [-v] [-h] command [<args>]"
+        o.separator ""
+        o.on("-v", "--version", "Print the version and exit.")
+        o.on("-h", "--help", "Print this help.")
+        o.separator ""
+        o.separator "Available subcommands:"
 
         # Add the available subcommands as separators in order to print them
         # out as well.
         keys = []
-        Vagrant.commands.each { |key, value| keys << key.to_s }
-
-        keys.sort.each do |key|
-          opts.separator "     #{key}"
+        Vagrant.plugin("2").manager.commands.each do |key, _|
+          keys << key
         end
 
-        opts.separator ""
-        opts.separator "For help on any individual command run `vagrant COMMAND -h`"
+        keys.sort.each do |key|
+          o.separator "     #{key}"
+        end
+
+        o.separator ""
+        o.separator "For help on any individual command run `vagrant COMMAND -h`"
       end
 
       @env.ui.info(opts.help, :prefix => false)

@@ -9,18 +9,39 @@ module Vagrant
     #
     # Building an action sequence is very easy:
     #
-    #     app = Vagrant::Action::Builder.new do
-    #       use MiddlewareA
-    #       use MiddlewareB
+    #     app = Vagrant::Action::Builder.new.tap do |b|
+    #       b.use MiddlewareA
+    #       b.use MiddlewareB
     #     end
     #
     #     Vagrant::Action.run(app)
     #
     class Builder
-      # Initializes the builder. An optional block can be passed which
-      # will be evaluated in the context of the instance.
-      def initialize(&block)
-        instance_eval(&block) if block_given?
+      # This is the stack of middlewares added. This should NOT be used
+      # directly.
+      #
+      # @return [Array]
+      attr_reader :stack
+
+      # This is a shortcut for a middleware sequence with only one item
+      # in it. For a description of the arguments and the documentation, please
+      # see {#use} instead.
+      #
+      # @return [Builder]
+      def self.build(middleware, *args, &block)
+        new.use(middleware, *args, &block)
+      end
+
+      def initialize
+        @stack = []
+      end
+
+      # Implement a custom copy that copies the stack variable over so that
+      # we don't clobber that.
+      def initialize_copy(original)
+        super
+
+        @stack = original.stack.dup
       end
 
       # Returns a mergeable version of the builder. If `use` is called with
@@ -38,11 +59,6 @@ module Vagrant
       #
       # @param [Class] middleware The middleware class
       def use(middleware, *args, &block)
-        # Prepend with a environment setter if args are given
-        if !args.empty? && args.first.is_a?(Hash) && middleware != Env::Set
-          self.use(Env::Set, args.shift, &block)
-        end
-
         if middleware.kind_of?(Builder)
           # Merge in the other builder's stack into our own
           self.stack.concat(middleware.stack)
@@ -57,7 +73,15 @@ module Vagrant
       # given middleware object.
       def insert(index, middleware, *args, &block)
         index = self.index(index) unless index.is_a?(Integer)
-        stack.insert(index, [middleware, args, block])
+        raise "no such middleware to insert before: #{index.inspect}" unless index
+
+        if middleware.kind_of?(Builder)
+          middleware.stack.reverse.each do |stack_item|
+            stack.insert(index, stack_item)
+          end
+        else
+          stack.insert(index, [middleware, args, block])
+        end
       end
 
       alias_method :insert_before, :insert
@@ -92,8 +116,6 @@ module Vagrant
         to_app(env).call(env)
       end
 
-      protected
-
       # Returns the numeric index for the given middleware object.
       #
       # @param [Object] object The item to find the index for
@@ -101,17 +123,10 @@ module Vagrant
       def index(object)
         stack.each_with_index do |item, i|
           return i if item[0] == object
+          return i if item[0].respond_to?(:name) && item[0].name == object
         end
 
         nil
-      end
-
-      # Returns the current stack of middlewares. You probably won't
-      # need to use this directly, and it's recommended that you don't.
-      #
-      # @return [Array]
-      def stack
-        @stack ||= []
       end
 
       # Converts the builder stack to a runnable action sequence.
@@ -119,9 +134,40 @@ module Vagrant
       # @param [Vagrant::Action::Environment] env The action environment
       # @return [Object] A callable object
       def to_app(env)
+        app_stack = nil
+
+        # If we have action hooks, then we apply them
+        if env[:action_hooks]
+          builder = self.dup
+
+          # These are the options to pass into hook application.
+          options = {}
+
+          # If we already ran through once and did append/prepends,
+          # then don't do it again.
+          if env[:action_hooks_already_ran]
+            options[:no_prepend_or_append] = true
+          end
+
+          # Specify that we already ran, so in the future we don't repeat
+          # the prepend/append hooks.
+          env[:action_hooks_already_ran] = true
+
+          # Apply all the hooks to the new builder instance
+          env[:action_hooks].each do |hook|
+            hook.apply(builder, options)
+          end
+
+          # The stack is now the result of the new builder
+          app_stack = builder.stack.dup
+        end
+
+        # If we don't have a stack then default to using our own
+        app_stack ||= stack.dup
+
         # Wrap the middleware stack with the Warden to provide a consistent
         # and predictable behavior upon exceptions.
-        Warden.new(stack.dup, env)
+        Warden.new(app_stack, env)
       end
     end
   end
