@@ -4,7 +4,7 @@ Forwarded: not-needed
 
 --- a/lib/vagrant.rb
 +++ b/lib/vagrant.rb
-@@ -88,7 +88,7 @@
+@@ -114,7 +114,7 @@ module Vagrant
    # The source root is the path to the root directory of
    # the Vagrant gem.
    def self.source_root
@@ -12,4 +12,4 @@ Forwarded: not-needed
 +    @source_root ||= Pathname.new('/usr/share/vagrant/')
    end
  
-   # Global registry of commands that are available via the CLI.
+   # Configure a Vagrant environment. The version specifies the version
