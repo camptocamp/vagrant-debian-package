@@ -1,0 +1,11 @@
+--- a/bin/vagrant
++++ b/bin/vagrant
+@@ -76,7 +76,7 @@ begin
+     end
+ 
+     # If we're not in the installer, warn.
+-    env.ui.warn(I18n.t("vagrant.general.not_in_installer")) if !warned
++#    env.ui.warn(I18n.t("vagrant.general.not_in_installer")) if !warned
+   end
+ 
+   begin
