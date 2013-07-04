@@ -2,6 +2,7 @@ vagrant (1.2.2-1) UNRELEASED; urgency=low
 
   * New upstream release (Closes: #697280)
     - Add support for VirtualBox 4.2 (Closes: #710242)
+    - Vagrant now only works with ruby 1.9 (Closes: #702144)
     - debian/control: Adjust dependencies
     - debian/patches/01_source_root_path.patch: Refreshed
   * debian/watch: Update watch file URL, vagrant is no longer distributed as a
