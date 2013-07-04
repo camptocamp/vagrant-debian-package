@@ -8,6 +8,7 @@ vagrant (1.2.2-1) UNRELEASED; urgency=low
     gem (Closes: #711110)
   * debian/control: Use canonical URL for VCS fields
   * debian/control: Bump Standards-Version to 3.9.4 (no further changes)
+  * debian/vagrant.install: Install plugins directory
 
  -- Laurent Bigonville <bigon@debian.org>  Tue, 04 Jun 2013 22:29:36 +0200
 
