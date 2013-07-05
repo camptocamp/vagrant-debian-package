@@ -12,7 +12,10 @@ XS-Ruby-Versions: all
 Package: vagrant
 Architecture: all
 XB-Ruby-Versions: ${ruby:Versions}
-Depends: ruby-erubis (>= 2.7.0),
+Depends: bsdtar,
+         curl,
+         openssh-client,
+         ruby-erubis (>= 2.7.0),
          ruby | ruby-interpreter,
          ruby-childprocess (>= 0.3.7),
          ruby-i18n (>= 0.6.0),
