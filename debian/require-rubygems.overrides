@@ -1,3 +1,6 @@
-debian/vagrant/usr/lib/ruby/vendor_ruby/vagrant/plugin.rb
-debian/vagrant/usr/lib/ruby/vendor_ruby/vagrant/command/gem.rb
-debian/vagrant/usr/lib/ruby/vendor_ruby/vagrant/environment.rb
+---
+- debian/vagrant/usr/share/vagrant/plugins/commands/plugin/action/install_gem.rb
+- debian/vagrant/usr/share/vagrant/plugins/commands/plugin/action/license_plugin.rb
+- debian/vagrant/usr/share/vagrant/plugins/commands/plugin/action/list_plugins.rb
+- debian/vagrant/usr/share/vagrant/plugins/commands/plugin/action/prune_gems.rb
+- debian/vagrant/usr/share/vagrant/plugins/commands/plugin/gem_helper.rb

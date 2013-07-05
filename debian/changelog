@@ -13,6 +13,7 @@ vagrant (1.2.2-1) UNRELEASED; urgency=low
   * debian/vagrant.install: Install plugins directory
   * debian/patches/02_disable_installer_warning.patch: Disable warning about
     not using the installer
+  * debian/require-rubygems.overrides: Refresh file list
 
  -- Laurent Bigonville <bigon@debian.org>  Tue, 04 Jun 2013 22:29:36 +0200
 
