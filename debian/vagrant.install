@@ -1,4 +1,4 @@
-templates/ usr/share/vagrant
-keys/ usr/share/vagrant
 config/ usr/share/vagrant
+keys/ usr/share/vagrant
 plugins/ usr/share/vagrant
+templates/ usr/share/vagrant
