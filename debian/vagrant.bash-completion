@@ -7,7 +7,7 @@ _vagrant()
 
     local command options
 
-    commands="box destroy halt init package provision reload resume \
+    commands="box destroy halt init package plugin provision reload resume \
         ssh ssh-config status suspend up"
 
     if [[ $cword -eq 1 ]] ; then
@@ -25,25 +25,41 @@ _vagrant()
                         subcommand=${words[2]}
                         case $subcommand in
                             add)
-                                options='-f --force'
+                                options='-f --force --insecure --provider'
                                 ;;
                         esac
                         ;;
                 esac
                 ;;
-            destroy)
-                options='-f --force'
-                ;;
             destroy|halt)
                 options='-f --force'
                 ;;
-            init|provision|resume|status|suspend)
+            init|resume|status|suspend)
                 options=''
                 ;;
             package)
                 options='--base --include --output --vagrantfile'
                 ;;
-            provision|reload|up)
+            plugin)
+                _count_args
+                case $args in
+                    2)
+                        options='install license list uninstall'
+                        ;;
+                    3)
+                        subcommand=${words[2]}
+                        case $subcommand in
+                            install)
+                                options='--entry-point --plugin-prerelease --plugin-source --plugin-version'
+                                ;;
+                        esac
+                        ;;
+                esac
+                ;;
+            provision)
+                options='--provision-with'
+                ;;
+            reload)
                 options='--no-provision --provision --provision-with'
                 ;;
             ssh)
@@ -51,6 +67,9 @@ _vagrant()
                 ;;
             ssh-config)
                 options='--host'
+                ;;
+            up)
+                options='--no-provision --provision --provision-with --no-parallel --parallel --provider'
                 ;;
         esac
         COMPREPLY=( $( compgen -W "$options -h --help" -- "$cur" ) )
