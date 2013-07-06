@@ -1,4 +1,4 @@
-vagrant (1.2.2-1) UNRELEASED; urgency=low
+vagrant (1.2.2-1) unstable; urgency=low
 
   * New upstream release (Closes: #697280)
     - Add support for VirtualBox 4.2 (Closes: #710242)
@@ -16,7 +16,7 @@ vagrant (1.2.2-1) UNRELEASED; urgency=low
   * debian/require-rubygems.overrides: Refresh file list
   * debian/vagrant.bash-completion: Add completion for the new arguments
 
- -- Laurent Bigonville <bigon@debian.org>  Tue, 04 Jun 2013 22:29:36 +0200
+ -- Laurent Bigonville <bigon@debian.org>  Sat, 06 Jul 2013 21:47:22 +0200
 
 vagrant (1.0.3-1) unstable; urgency=low
 
