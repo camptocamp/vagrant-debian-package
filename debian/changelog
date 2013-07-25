@@ -2,6 +2,7 @@ vagrant (1.2.4-1) UNRELEASED; urgency=low
 
   * Non-maintainer upload.
   * New upstream release
+  * Add 3 patches improving NFS support
 
  -- Marc Fournier <marc.fournier@camptocamp.com>  Thu, 25 Jul 2013 10:25:04 +0200
 

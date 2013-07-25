@@ -1,0 +1,13 @@
+Description: export NFS with async option
+Bug: https://github.com/mitchellh/vagrant/issues/1178
+Author: Marc Fournier <marc.fournier@camptocamp.com>
+
+--- a/templates/nfs/exports_linux.erb
++++ b/templates/nfs/exports_linux.erb
+@@ -1,5 +1,5 @@
+ # VAGRANT-BEGIN: <%= uuid %>
+ <% folders.each do |name, opts| %>
+-"<%= opts[:hostpath] %>" <%= ip %>(rw,no_subtree_check,all_squash<% if opts[:map_uid] %>,anonuid=<%= opts[:map_uid] %><% end %><% if opts[:map_gid] %>,anongid=<%= opts[:map_gid] %><% end %>,fsid=<%= opts[:uuid] %>)
++"<%= opts[:hostpath] %>" <%= ip %>(rw,async,no_subtree_check,all_squash<% if opts[:map_uid] %>,anonuid=<%= opts[:map_uid] %><% end %><% if opts[:map_gid] %>,anongid=<%= opts[:map_gid] %><% end %>,fsid=<%= opts[:uuid] %>)
+ <% end %>
+ # VAGRANT-END: <%= uuid %>
