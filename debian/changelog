@@ -1,4 +1,4 @@
-vagrant (1.2.4-1) UNRELEASED; urgency=low
+vagrant (1.2.4-1~c2c+1) squeeze wheezy precise quantal raring saucy; urgency=low
 
   * Non-maintainer upload.
   * New upstream release
