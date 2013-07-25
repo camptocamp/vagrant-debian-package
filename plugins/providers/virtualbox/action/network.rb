@@ -111,8 +111,10 @@ module VagrantPlugins
 
             # Only configure the networks the user requested us to configure
             networks_to_configure = networks.select { |n| n[:auto_config] }
-            env[:ui].info I18n.t("vagrant.actions.vm.network.configuring")
-            env[:machine].guest.capability(:configure_networks, networks_to_configure)
+            if !networks_to_configure.empty?
+              env[:ui].info I18n.t("vagrant.actions.vm.network.configuring")
+              env[:machine].guest.capability(:configure_networks, networks_to_configure)
+            end
           end
         end
 
@@ -218,7 +220,7 @@ module VagrantPlugins
           options[:type] = options[:type].to_sym
 
           # Default IP is in the 20-bit private network block for DHCP based networks
-          options[:ip] = "172.28.128.1" if options[:type] == :dhcp
+          options[:ip] = "172.28.128.1" if options[:type] == :dhcp && !options[:ip]
 
           # Calculate our network address for the given IP/netmask
           netaddr  = network_address(options[:ip], options[:netmask])
