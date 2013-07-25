@@ -1,3 +1,93 @@
+## 1.2.4 (July 16, 2013)
+
+FEATURES:
+
+  - Chef solo and client provisioning now support a `custom_config_path`
+    setting that accepts a path to a Ruby file to load as part of Chef
+    configuration, allowing you to override any setting available. [GH-876]
+  - CFEngine provisioner: you can now specify the package name to install,
+    so CFEngine enterprise is supported. [GH-1920]
+
+IMPROVEMENTS:
+
+  - `vagrant box remove` works with only the name of the box if that
+    box exists only backed by one provider. [GH-1032]
+  - `vagrant destroy` returns exit status 1 if any of the confirmations
+    are declined. [GH-923]
+  - Forwarded ports can specify a host IP and guest IP to bind to. [GH-1121]
+  - You can now set the "ip" of a private network that uses DHCP. This will
+    change the subnet and such that the DHCP server uses.
+  - Add `file_cache_path` support for chef_solo. [GH-1897]
+
+BUG FIXES:
+
+  - VBoxManage or any other executable missing from PATH properly
+    reported. Regression from 1.2.2. [GH-1928]
+  - Boxes downloaded as part of `vagrant up` are now done so _prior_ to
+    config validation. This allows Vagrantfiles to references files that
+    may be in the box itself. [GH-1061]
+  - Chef removes dna.json and encrypted data bag secret file prior to
+    uploading. [GH-1111]
+  - NFS synced folders exporting sub-directories of other exported folders now
+    works properly. [GH-785]
+  - NFS shared folders properly dereference symlinks so that the real path
+    is used, avoiding mount errors [GH-1101]
+  - SSH channel is closed after the exit status is received, potentially
+    eliminating any SSH hangs. [GH-603]
+  - Fix regression where VirtualBox detection wasn't working anymore. [GH-1918]
+  - NFS shared folders with single quotes in their name now work properly. [GH-1166]
+  - Debian/Ubuntu request DHCP renewal when hostname changes, which will
+    fix issues with FQDN detecting. [GH-1929]
+  - SSH adds the "DSAAuthentication=yes" option in case that is disabled
+    on the user's system. [GH-1900]
+
+## 1.2.3 (July 9, 2013)
+
+FEATURES:
+
+  - Puppet provisioner now supports Hiera by specifying a `hiera_config_path`.
+  - Added a `working_directory` configuration option to the Puppet apply
+    provisioner so you can specify the working directory when `puppet` is
+    called, making it friendly to Hiera data and such. [GH-1670]
+  - Ability to specify the host IP to bind forwarded ports to. [GH-1785]
+
+IMPROVEMENTS:
+
+  - Setting hostnames works properly on OmniOS. [GH-1672]
+  - Better VBoxManage error detection on Windows systems. This avoids
+    some major issues where Vagrant would sometimes "lose" your VM. [GH-1669]
+  - Better detection of missing VirtualBox kernel drivers on Linux
+    systems. [GH-1671]
+  - More precise detection of Ubuntu/Debian guests so that running Vagrant
+    within an LXC container works properly now.
+  - Allow strings in addition to symbols to more places in V1 configuration
+    as well as V2 configuration.
+  - Add `ARPCHECK=0` to RedHat OS family network configuration. [GH-1815]
+  - Add SSH agent forwarding sample to initial Vagrantfile. [GH-1808]
+  - VirtualBox: Only configure networks if there are any to configure.
+    This allows linux's that don't implement this capability to work with
+    Vagrant. [GH-1796]
+  - Default SSH forwarded port now binds to 127.0.0.1 so only local
+    connections are allowed. [GH-1785]
+  - Use `netctl` for Arch Linux network configuration. [GH-1760]
+  - Improve fedora host detection regular expression. [GH-1913]
+  - SSH shows a proper error on EHOSTUNREACH. [GH-1911]
+
+BUG FIXES:
+
+  - Ignore "guest not ready" errors when attempting to graceful halt and
+    carry on checks whether the halt succeeded. [GH-1679]
+  - Handle the case where a roles path for Chef solo isn't properly
+	defined. [GH-1665]
+  - Finding V1 boxes now works properly again to avoid "box not found"
+    errors. [GH-1691]
+  - Setting hostname on SLES 11 works again. [GH-1781]
+  - `config.vm.guest` properly forces guests again. [GH-1800]
+  - The `read_ip_address` capability for linux properly reads the IP
+    of only the first network interface. [GH-1799]
+  - Validate that an IP is given for a private network. [GH-1788]
+  - Fix uninitialized constant error for Gentoo plugin. [GH-1698]
+
 ## 1.2.2 (April 23, 2013)
 
 FEATURES:
@@ -59,6 +149,8 @@ BACKWARDS INCOMPATIBILITIES:
     To work around this, either set `VAGRANT_HOME` to your Cygwin ".vagrant.d"
     folder or move your ".vagrant.d" folder to `USERPROFILE`. The latter is
     recommended for long-term support.
+  - The constant `Vagrant::Environment::VAGRANT_HOME` was removed in favor of
+    `Vagrant::Environment#default_vagrant_home`.
 
 FEATURES:
 

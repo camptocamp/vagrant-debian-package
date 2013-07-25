@@ -114,8 +114,11 @@ module VagrantPlugins
 
         def upload_encrypted_data_bag_secret
           @machine.env.ui.info I18n.t("vagrant.provisioners.chef.upload_encrypted_data_bag_secret_key")
-          @machine.communicate.upload(encrypted_data_bag_secret_key_path,
-                                           @config.encrypted_data_bag_secret)
+          @machine.communicate.tap do |comm|
+            comm.sudo("rm #{@config.encrypted_data_bag_secret}", :error_check => false)
+            comm.upload(encrypted_data_bag_secret_key_path,
+                        @config.encrypted_data_bag_secret)
+          end
         end
 
         def setup_solo_config
@@ -125,7 +128,6 @@ module VagrantPlugins
 
           setup_config("provisioners/chef_solo/solo", "solo.rb", {
             :node_name => @config.node_name,
-            :provisioning_path => @config.provisioning_path,
             :cookbooks_path => cookbooks_path,
             :recipe_url => @config.recipe_url,
             :roles_path => roles_path,
