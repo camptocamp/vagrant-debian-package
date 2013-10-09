@@ -34,7 +34,7 @@ module VagrantPlugins
         end
       end
 
-      def nfs_export(id, ip, folders)
+      def nfs_export(id, ips, folders)
         # We need to build up mapping of directories that are enclosed
         # within each other because the exports file has to have subdirectories
         # of an exported directory on the same line. e.g.:
@@ -75,6 +75,29 @@ module VagrantPlugins
           dirs.sort_by! { |d| d.length }
         end
 
+        # Setup the NFS options
+        dirmap.each do |dirs, opts|
+          if !opts[:bsd__nfs_options]
+            opts[:bsd__nfs_options] = ["alldirs"]
+          end
+
+          hasmapall = false
+          opts[:bsd__nfs_options].each do |opt|
+            if opt =~ /^mapall=/
+              hasmapall = true
+              break
+            end
+          end
+
+          if !hasmapall
+            opts[:bsd__nfs_options] << "mapall=#{opts[:map_uid]}:#{opts[:map_gid]}"
+          end
+
+          opts[:bsd__compiled_nfs_options] = opts[:bsd__nfs_options].map do |opt|
+            "-#{opt}"
+          end.join(" ")
+        end
+
         @logger.info("Exporting the following for NFS...")
         dirmap.each do |dirs, opts|
           @logger.info("NFS DIR: #{dirs.inspect}")
@@ -83,8 +106,9 @@ module VagrantPlugins
 
         output = TemplateRenderer.render(@nfs_exports_template,
                                          :uuid => id,
-                                         :ip => ip,
-                                         :folders => dirmap)
+                                         :ips => ips,
+                                         :folders => dirmap,
+                                         :user => Process.uid)
 
         # The sleep ensures that the output is truly flushed before any `sudo`
         # commands are issued.
@@ -98,7 +122,7 @@ module VagrantPlugins
         output.split("\n").each do |line|
           line.gsub!('"', '\"')
           line.gsub!("'", "'\\\\''")
-          system(%Q[sudo su root -c "echo '#{line}' >> /etc/exports"])
+          system(%Q[sudo -s -- "echo '#{line}' >> /etc/exports"])
         end
 
         # We run restart here instead of "update" just in case nfsd
@@ -112,9 +136,10 @@ module VagrantPlugins
         @logger.info("Pruning invalid NFS entries...")
 
         output = false
+        user = Process.uid
 
         File.read("/etc/exports").lines.each do |line|
-          if id = line[/^# VAGRANT-BEGIN: (.+?)$/, 1]
+          if id = line[/^# VAGRANT-BEGIN:( #{user})? ([A-Za-z0-9-]+?)$/, 2]
             if valid_ids.include?(id)
               @logger.debug("Valid ID: #{id}")
             else
@@ -129,6 +154,8 @@ module VagrantPlugins
             end
           end
         end
+      rescue Errno::EACCES
+        raise Vagrant::Errors::NFSCantReadExports
       end
 
       protected
@@ -140,9 +167,11 @@ module VagrantPlugins
         id = id.gsub("/", "\\/")
         id = id.gsub(".", "\\.")
 
+        user = Process.uid
+
         # Use sed to just strip out the block of code which was inserted
         # by Vagrant, and restart NFS.
-        system("sudo sed -e '/^# VAGRANT-BEGIN: #{id}/,/^# VAGRANT-END: #{id}/ d' -ibak /etc/exports")
+        system("sudo sed -E -e '/^# VAGRANT-BEGIN:( #{user})? #{id}/,/^# VAGRANT-END:( #{user})? #{id}/ d' -ibak /etc/exports")
       end
     end
   end

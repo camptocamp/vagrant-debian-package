@@ -73,6 +73,25 @@ module Vagrant
         process.io.stderr = stderr_writer
         process.duplex = true
 
+        # If we're in an installer on Mac and we're executing a command
+        # in the installer context, then force DYLD_LIBRARY_PATH to look
+        # at our libs first.
+        if Vagrant.in_installer? && Platform.darwin?
+          installer_dir = ENV["VAGRANT_INSTALLER_EMBEDDED_DIR"].to_s.downcase
+          if @command[0].downcase.include?(installer_dir)
+            @logger.info("Command in the installer. Specifying DYLD_LIBRARY_PATH...")
+            process.environment["DYLD_LIBRARY_PATH"] =
+              "#{installer_dir}/lib:#{ENV["DYLD_LIBRARY_PATH"]}"
+          else
+            @logger.debug("Command not in installer, not touching env vars.")
+          end
+
+          if File.setuid?(@command[0]) || File.setgid?(@command[0])
+            @logger.info("Command is setuid/setgid, clearing DYLD_LIBRARY_PATH")
+            process.environment["DYLD_LIBRARY_PATH"] = ""
+          end
+        end
+
         # Set the environment on the process if we must
         if @options[:env]
           @options[:env].each do |k, v|

@@ -48,6 +48,10 @@ module Vagrant
         error_namespace(namespace) if namespace
       end
 
+      def self.error_message(message)
+        define_method(:error_message) { message }
+      end
+
       def self.error_namespace(namespace)
         define_method(:error_namespace) { namespace }
       end
@@ -55,10 +59,19 @@ module Vagrant
       def initialize(message=nil, *args)
         message = { :_key => message } if message && !message.is_a?(Hash)
         message = { :_key => error_key, :_namespace => error_namespace }.merge(message || {})
-        message = translate_error(message)
+
+        if error_key
+          message = translate_error(message)
+        else
+          message = error_message
+        end
 
         super
       end
+
+      # The error message for this error. This is used if no error_key
+      # is specified for a translatable error message.
+      def error_message; "No error message"; end
 
       # The default error namespace which is used for the error key.
       # This can be overridden here or by calling the "error_namespace"
@@ -85,6 +98,10 @@ module Vagrant
 
     class ActiveMachineWithDifferentProvider < VagrantError
       error_key(:active_machine_with_different_provider)
+    end
+
+    class AnsibleFailed < VagrantError
+      error_key(:ansible_failed)
     end
 
     class AnsiblePlaybookAppNotFound < VagrantError
@@ -167,7 +184,7 @@ module Vagrant
       error_key(:command_unavailable)
     end
 
-    class CommandUnavailableWindows < VagrantError
+    class CommandUnavailableWindows < CommandUnavailable
       error_key(:command_unavailable_windows)
     end
 
@@ -181,6 +198,10 @@ module Vagrant
 
     class CopyPrivateKeyFailed < VagrantError
       error_key(:copy_private_key_failed)
+    end
+
+    class DarwinNFSMountFailed < VagrantError
+      error_key(:darwin_nfs_mount_failed)
     end
 
     class DestroyRequiresForce < VagrantError
@@ -327,6 +348,10 @@ module Vagrant
       error_key(:not_found, "vagrant.actions.vm.host_only_network")
     end
 
+    class NFSCantReadExports < VagrantError
+      error_key(:nfs_cant_read_exports)
+    end
+
     class NFSNoGuestIP < VagrantError
       error_key(:nfs_no_guest_ip)
     end
@@ -367,6 +392,10 @@ module Vagrant
       error_key(:provider_not_found)
     end
 
+    class ProvisionerFlagInvalid < VagrantError
+      error_key(:provisioner_flag_invalid)
+    end
+
     class PluginGemError < VagrantError
       error_key(:plugin_gem_error)
     end
@@ -397,6 +426,10 @@ module Vagrant
 
     class PluginNotFound < VagrantError
       error_key(:plugin_not_found)
+    end
+
+    class PluginNotInstalled < VagrantError
+      error_key(:plugin_not_installed)
     end
 
     class SCPPermissionDenied < VagrantError
@@ -507,6 +540,10 @@ module Vagrant
       error_key(:vboxmanage_not_found_error)
     end
 
+    class VirtualBoxBrokenVersion040214 < VagrantError
+      error_key(:virtualbox_broken_version_040214)
+    end
+
     class VirtualBoxInvalidVersion < VagrantError
       error_key(:virtualbox_invalid_version)
     end
@@ -529,6 +566,14 @@ module Vagrant
 
     class VMBaseMacNotSpecified < VagrantError
       error_key(:no_base_mac, "vagrant.actions.vm.match_mac")
+    end
+
+    class VMBootBadState < VagrantError
+      error_key(:boot_bad_state)
+    end
+
+    class VMBootTimeout < VagrantError
+      error_key(:boot_timeout)
     end
 
     class VMCustomizationFailed < VagrantError
