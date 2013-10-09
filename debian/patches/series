@@ -1,5 +1,2 @@
 01_source_root_path.patch
 02_disable_installer_warning.patch
-03_nfs_async_exports.patch
-04_nfs_udp_atime_size.patch
-05_puppet_provisioner_nfs_support.patch
